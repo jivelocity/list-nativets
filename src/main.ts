@@ -12,7 +12,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <a href="https://www.typescriptlang.org/" target="_blank">
         <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
         </a>
-        <h1>Vite + TypeScript</h1>
+        <h1>Longlife Learner</h1>
         <div class="card">
         <button id="counter" type="button"></button>
         </div>
@@ -122,26 +122,26 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 `
 
-window.addEventListener('load',() => {
-    // document.querySelector<HTMLDivElement>('#app-title')!.innerHTML = 'Hello World'
-    console.log('Page loaded');
+// window.addEventListener('load',() => {
+//     // document.querySelector<HTMLDivElement>('#app-title')!.innerHTML = 'Hello World'
+//     console.log('Page loaded');
 
-})
+// })
 
-window.addEventListener('DOMContentLoaded', () => {
-    // document.querySelector<HTMLDivElement>('#app-title')!.innerHTML = 'Hello World'
-    console.log('DOM loaded');
-})
+// window.addEventListener('DOMContentLoaded', () => {
+//     // document.querySelector<HTMLDivElement>('#app-title')!.innerHTML = 'Hello World'
+//     console.log('DOM loaded');
+// })
 
-console.log('Run Me');
+// console.log('Run Me');
 
-window.addEventListener('resize', () => {
-    console.log('Resized', window.innerWidth, window.innerHeight);
-})
+// window.addEventListener('resize', () => {
+//     console.log('Resized', window.innerWidth, window.innerHeight);
+// })
 
-window.addEventListener('scroll', () => {
-    console.log('Scrolled',);
-})
+// window.addEventListener('scroll', () => {
+//     console.log('Scrolled',);
+// })
 
 
 const inputKey = document.querySelector<HTMLInputElement>('#key')!
