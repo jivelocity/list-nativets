@@ -87,7 +87,7 @@ button:focus-visible {
 
 header {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     margin-bottom: 20px;
   }
@@ -96,11 +96,9 @@ header {
     font-weight: 300;
     margin-left: 10px;
   }
-
   .container {
     max-width: 500px;
     margin: 30px auto;
-    padding: 20px;
   }
 
   .edit-mode {
@@ -131,6 +129,7 @@ header {
 
   /* Form & Input */
   .form-input {
+    box-sizing: border-box;
     width: 100%;
     font-size: 18px;
     margin-bottom: 20px;
@@ -142,6 +141,7 @@ header {
 
   .form-input-filter {
     margin-top: 20px;
+    box-sizing: border-box;
     width: 100%;
     font-size: 18px;
     margin-bottom: 20px;
@@ -152,9 +152,18 @@ header {
     outline: none;
   }
 
+  .checkbox {
+    margin-bottom: 20px;
+  }
+
+  .edit-mode {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+
   /* Buttons */
   .btn {
-    background-color: #333;
+    background-color: #2ecc71;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -178,6 +187,7 @@ header {
   .btn-clear {
     margin-top: 20px;
     font-size: 16px;
+    width: 100%;
     background-color: transparent;
     color: #fff;
     border: 1px solid #ccc;
@@ -197,23 +207,46 @@ header {
 
   /* Items */
 
+  ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
   .items {
+    box-sizing: border-box;
+    width: 100%;
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
   }
 
   .items li {
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 45%;
+    width: 100%;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px 15px;
     margin: 0 5px 20px;
     font-weight: 700;
     cursor: pointer;
+  }
+
+  #output{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .key{
+    background-color: #ccc;
+    padding: 20px;
+    color: #1a1a1a;
+    border-radius: 5px;
   }
 
   @media (max-width: 500px) {

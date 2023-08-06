@@ -440,49 +440,21 @@ export function shoppingList() {
         // parent.style.backgroundColor = 'red';
 
     // })
+    // formInput.addEventListener('keydown', (e:KeyboardEvent) => {
+    //     console.log((e.target as HTMLInputElement).value);
+    // })
 
-    const formInput = document.querySelector('#item-input') as HTMLInputElement;
-    const submitBtn = document.querySelector('#item-submit') as HTMLButtonElement;
-    const listParent = document.querySelector('#item-list') as HTMLUListElement;
-    const clearBtn = document.querySelector('#clear') as HTMLButtonElement;
+    // priority.addEventListener('change', (e) => {
+    //     const value = (e.target as HTMLInputElement).value;
+    //     console.log(value);
+    // })
 
-    submitBtn.addEventListener('click', (e) => {
-        e.preventDefault();
+    // checkbox.addEventListener('input', (e:any) => {
+    //     const isChecked = (e.target as HTMLInputElement).checked;
+    //     console.log(isChecked);
+    // })
 
-        crateNewItem();
-        formInput.value = '';
-    })
 
-    function crateNewItem() {
-        const li = document.createElement('li');
-        li.textContent = formInput.value;
-        listParent.appendChild(li);
-
-        const button = createButton('');
-        button.addEventListener('click', () => {
-            listParent.removeChild(li);
-        })
-        li.appendChild(button);
-    }
-
-    function createButton(classes:string) {
-        const button = document.createElement('button');
-        button.className = classes;
-
-        const icon = createIcon('fa-solid fa-xmark');
-        button.appendChild(icon);
-        return button;
-    }
-
-    function createIcon(classes:string) {
-        const icon = document.createElement('i');
-        icon.className = classes;
-        return icon;
-    }
-
-    clearBtn.addEventListener('click', () => {
-       listParent.innerHTML = '';
-    })
 
 
     // const logo = document.querySelector('.logoShopping') as HTMLImageElement;
@@ -549,7 +521,7 @@ export function shoppingList() {
 
     // ## Keyboard Events
 
-    const itemInput = document.querySelector('#item-input') as HTMLInputElement;
+    // const itemInput = document.querySelector('#item-input') as HTMLInputElement;
 
     // const onKeyPress = (e:KeyboardEvent) => {
     //     console.log(e.key);
@@ -570,10 +542,325 @@ export function shoppingList() {
     //     document.querySelector('h1')!.textContent = itemInput.value;
     // })
 
-    itemInput.addEventListener('keydown', (e:KeyboardEvent) => {
-        if(e.key === 'Enter'){
-            console.log('Enter');
+    // itemInput.addEventListener('keydown', (e:KeyboardEvent) => {
+    //     if(e.key === 'Enter'){
+    //         console.log('Enter');
+    //     }
+    // })
+
+
+    // ## Event Bubbling
+
+    // const button = document.querySelector('form button') as HTMLButtonElement;
+    // const div = document.querySelector('form div:nth-child(2)') as HTMLDivElement;
+
+    // const form = document.querySelector('form') as HTMLFormElement;
+
+    // button.addEventListener('click', (e:Event) => {
+    //     alert('Button Clicked');
+    //     e.stopPropagation();
+    // })
+
+    // div.addEventListener('click', () => {
+    //     alert('Div Clicked');
+    // })
+
+    // form.addEventListener('click', (e:Event) => {
+    //     alert('Form Clicked');
+    //     e.stopPropagation();
+    // })
+
+    // document.body.addEventListener('click', () => {
+    //     alert('Body Clicked');
+    // })
+
+
+
+    // ## Event Delegation
+
+    // const listItems = document.querySelectorAll('li') as NodeListOf<HTMLLIElement>;
+
+    // listItems.forEach(item => {
+    //     item.addEventListener('click', (e:Event) => {
+    //         const li = e.target as HTMLLIElement;
+    //         li.style.color = 'red';
+    //     })
+    // })
+
+
+    // ## My version
+
+    // const formInput = document.querySelector('#item-input') as HTMLInputElement;
+    // const submitBtn = document.querySelector('#item-submit') as HTMLButtonElement;
+    // const listParent = document.querySelector('#item-list') as HTMLUListElement;
+    // const clearBtn = document.querySelector('#clear') as HTMLButtonElement;
+
+    // submitBtn.addEventListener('click', (e) => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+
+    //     if (formInput.value !== '') {
+    //         crateNewItem();
+    //     }else{
+    //         alert('Please enter a value');
+    //     }
+    //     formInput.value = '';
+    // })
+
+
+    // function crateNewItem() {
+    //     const li = document.createElement('li');
+    //     li.textContent = formInput.value;
+    //     listParent.appendChild(li);
+
+    //     const button = createButton('');
+    //     button.addEventListener('click', () => {
+    //         listParent.removeChild(li);
+    //     })
+    //     li.appendChild(button);
+    // }
+
+    // function createButton(classes:string) {
+    //     const button = document.createElement('button');
+    //     button.className = classes;
+
+    //     const icon = createIcon('fa-solid fa-xmark');
+    //     button.appendChild(icon);
+    //     return button;
+    // }
+
+    // function createIcon(classes:string) {
+    //     const icon = document.createElement('i');
+    //     icon.className = classes;
+    //     return icon;
+    // }
+
+    // clearBtn.addEventListener('click', () => {
+    //    listParent.innerHTML = '';
+    // })
+
+
+    const itemForm = document.getElementById('item-form') as HTMLFormElement;
+    const itemInput = document.getElementById('item-input') as HTMLInputElement;
+    const itemList = document.getElementById('item-list') as HTMLUListElement;
+    const clearBtn = document.querySelector('#clear') as HTMLButtonElement;
+    const itemFilter = document.getElementById('filter') as HTMLInputElement;
+    const formBtn = itemForm.querySelector('.btn') as HTMLButtonElement;
+    let isEditMode = false;
+
+
+    const displayItems = () => {
+        const items = getItemsFromStorage()
+
+        items.forEach( (item:any) => {
+            addItemToDOM(item)
+        })
+
+        checkUI()
+    }
+
+    const onAddItemSubmit = (e:Event) => {
+        e.preventDefault()
+
+        const newItem = itemInput.value.trim()
+
+        //Validate input
+        if(itemInput.value === ''){
+            alert('Please add an item')
+            return
         }
-    })
+
+        //Check for edit mode
+        if(isEditMode){
+            const itemToEdit = itemList.querySelector('.edit-mode') as HTMLLIElement
+
+            removeItemFromStorage(itemToEdit.textContent!)
+            itemToEdit.classList.remove('edit-mode')
+            itemToEdit.remove()
+            isEditMode = false
+        }else{
+            if (checkIfItemExists(newItem)) {
+                alert('Item already exists')
+                return
+            }
+        }
+
+        //create item DOM element
+        addItemToDOM(newItem)
+
+        //Add item to local storage
+        addItemToStorage(newItem)
+
+        checkUI()
+
+        itemInput.value = ''
+
+    }
+
+    const addItemToStorage = (item:string) => {
+        const itemsFromStorage = getItemsFromStorage()
+
+        //Add new item to array
+        itemsFromStorage.push(item)
+
+        //Convert to JSON string and set to local storage
+
+        localStorage.setItem('items', JSON.stringify(itemsFromStorage))
+    }
+
+    const getItemsFromStorage = () => {
+        let itemsFromStorage
+
+        if (localStorage.getItem('items') === null) {
+            itemsFromStorage = []
+        }else{
+            itemsFromStorage = JSON.parse(localStorage.getItem('items')!)
+        }
+
+        return itemsFromStorage
+    }
+
+    const onClickItem = (e:any) => {
+        const btn = e.target
+
+        if(btn.parentElement!.classList.contains('remove-item')){
+            removeItem(btn.parentElement!.parentElement)
+        }else {
+            setItemToEdit(btn)
+        }
+    }
+
+    const checkIfItemExists = (newItem:string) => {
+        let items = getItemsFromStorage()
+        return items.includes(newItem)
+    }
+
+    const setItemToEdit = (item:HTMLUListElement) => {
+        if (item.tagName === 'LI') {
+            isEditMode = true
+
+            itemList.querySelectorAll('li').forEach((i:any) => {
+                i.classList.remove('edit-mode')
+            })
+
+            item.classList.add('edit-mode')
+            itemInput.value = item.textContent!
+            itemInput.focus()
+            formBtn.innerHTML = '<i class="fas fa-pencil-alt"></i> Update Item'
+            formBtn.style.backgroundColor = '#f39c12'
+        }
+
+    }
+
+    const removeItemFromStorage = (item:any) => {
+        let itemsFromStorage = getItemsFromStorage()
+
+        itemsFromStorage = itemsFromStorage.filter((i:any) => i !== item)
+
+        //Re=set to local storage
+        localStorage.setItem('items', JSON.stringify(itemsFromStorage))
+    }
+
+    const removeItem = (item:any) => {
+        if(confirm('Are you sure?')){
+            //Remove from DOM
+            item.remove()
+            //Remove from local storage
+            removeItemFromStorage(item.textContent)
+
+            checkUI()
+        }
+
+    }
+
+    const addItemToDOM = (item:string) => {
+        //Create new item
+        const li = document.createElement('li')
+        li.appendChild(document.createTextNode(item))
+
+        const deleteBtn = createButton('remove-item')
+
+        li.appendChild(deleteBtn)
+
+        //Add li to the DOM
+        itemList.appendChild(li)
+    }
+
+    const createButton = (classes:string) => {
+        const button = document.createElement('button');
+        button.className = classes;
+
+        const icon = createIcon('fa-solid fa-trash');
+        button.appendChild(icon);
+        return button;
+    }
+
+    const createIcon = (classes:string) => {
+        const icon = document.createElement('i');
+        icon.className = classes;
+        return icon;
+    }
+
+    const clearItems = () => {
+        if (confirm('Are you sure?')) {
+            while (itemList.firstChild) {
+                itemList.removeChild(itemList.firstChild)
+            }
+
+            //Clear from local storage
+            localStorage.removeItem('items')
+
+            checkUI()
+        }
+    }
+
+    const filterItems = (e:Event) => {
+        const text = e.target as HTMLInputElement
+        const items = itemList.querySelectorAll('li') as NodeListOf<HTMLLIElement>;
+
+        items.forEach(item => {
+            const itemName = item.firstChild!.textContent
+            if (itemName !== null) {
+                if (itemName.toLowerCase().indexOf(text.value.toLowerCase()) !== -1) {
+                    item.style.display = 'flex'
+                }else{
+                    item.style.display = 'none'
+                }
+            }
+        })
+    }
+
+    const checkUI = () => {
+        itemInput.value = ''
+
+        const items = itemList.querySelectorAll('li') as NodeListOf<HTMLLIElement>;
+        if (items.length === 0 ) {
+           clearBtn.style.display = 'none'
+           itemFilter.style.display = 'none'
+        }else{
+            clearBtn.style.display = 'block'
+            itemFilter.style.display = 'block'
+        }
+
+        formBtn.innerHTML = '<i class="fas fa-plus"></i> Add Item'
+        formBtn.style.backgroundColor = '#2ecc71'
+
+        isEditMode = false
+    }
+
+    //Initilize App
+    function init() {
+        // Event Listeners
+
+        itemForm.addEventListener('submit', onAddItemSubmit)
+        itemList.addEventListener('click', onClickItem)
+        clearBtn.addEventListener('click', clearItems)
+        itemFilter.addEventListener('input', filterItems)
+        document.addEventListener('DOMContentLoaded', displayItems)
+
+        checkUI()
+    }
+
+    init()
 
 }

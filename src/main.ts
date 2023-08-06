@@ -6,20 +6,38 @@ import { shoppingList } from './shopping-list.ts'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
+        <a href="https://vitejs.dev" target="_blank">
+        <img src="${viteLogo}" class="logo" alt="Vite logo" />
+        </a>
+        <a href="https://www.typescriptlang.org/" target="_blank">
+        <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
+        </a>
+        <h1>Vite + TypeScript</h1>
+        <div class="card">
+        <button id="counter" type="button"></button>
+        </div>
+        <p class="read-the-docs">
+        Click on the Vite and TypeScript logos to learn more
+        </p>
   </div>
+
+  <div class="container">
+    <h2>Event Key Code</h2>
+    <div id="output">
+        <div class="key">
+            <small>key</small>
+        </div>
+        <div class="key">
+            <small>keyCode</small>
+        </div>
+        <div class="key">
+            <small>code</small>
+        </div>
+    </div>
+    <div id="insert">
+        <input class="form-input" type="text" id="key" placeholder="Enter Key" />
+    </div>
+    </div>
   <div class="container">
       <header>
         <img class="logoShopping" src="images/note.png" alt="" />
@@ -35,6 +53,21 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
             placeholder="Enter Item"
           />
         </div>
+
+        <!--
+        <select name="priority" id="priority" class="form-input">
+            <option value="0">Select Priority</option>
+            <option value="1">Low</option>
+            <option value="2">Medium</option>
+            <option value="3">High</option>
+        </select>
+
+        <div class="checkbox">
+            <input type="checkbox" id="checkbox" />
+            Recurring Item
+        </div>
+        -->
+
         <div class="form-control">
           <button type="submit" class="btn" id="item-submit">
             <i class="fa-solid fa-plus"></i> Add Item
@@ -83,18 +116,46 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button id="clear" class="btn-clear">Clear All</button>
     </div>
 
-    <div class="container">
-        <h2>Traversing The DOM</h2>
-        <div class="parent card">
-            <!-- Children -->
-            <div class="child">Child 1</div>
-            <div class="child">Child 2</div>
-            <div class="child">Child 3</div>
-        </div>
-        <button class="btn" id="run">Run</button>
-    </div>
+
+
+
 
 `
+
+window.addEventListener('load',() => {
+    // document.querySelector<HTMLDivElement>('#app-title')!.innerHTML = 'Hello World'
+    console.log('Page loaded');
+
+})
+
+window.addEventListener('DOMContentLoaded', () => {
+    // document.querySelector<HTMLDivElement>('#app-title')!.innerHTML = 'Hello World'
+    console.log('DOM loaded');
+})
+
+console.log('Run Me');
+
+window.addEventListener('resize', () => {
+    console.log('Resized', window.innerWidth, window.innerHeight);
+})
+
+window.addEventListener('scroll', () => {
+    console.log('Scrolled',);
+})
+
+
+const inputKey = document.querySelector<HTMLInputElement>('#key')!
+
+inputKey.addEventListener('keydown', (e:KeyboardEvent) => {
+    document.querySelector<HTMLDivElement>('.key:nth-child(1)')!.innerHTML = e.key.toUpperCase()
+    document.querySelector<HTMLDivElement>('.key:nth-child(2)')!.innerHTML = e.keyCode.toString()
+    document.querySelector<HTMLDivElement>('.key:nth-child(3)')!.innerHTML = e.code
+
+    setTimeout(() => {
+        inputKey.value = ''
+        e.preventDefault()
+    }, 1000);
+})
 
 setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
 shoppingList()
